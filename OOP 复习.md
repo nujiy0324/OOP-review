@@ -92,6 +92,9 @@ delete [] array;
 
 ```c++
 //instance
+int ival = 1; 
+int & refval = ival;
+int func (int &a, int &b); //引用传递，参数a，b都是引用，即实参的别名，对a，b的修改即为对实参的修改
 
 ```
 
