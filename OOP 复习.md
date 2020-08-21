@@ -133,5 +133,15 @@ typedef      PCchar *       PPCchar; // pointer to pointer to const c
 - 对于虚函数，子类可以（也可以不）重新定义基类的虚函数，该行为称之为复写Override。（virtual 关键字实现）
 - 对于纯虚函数，子类必须提供纯虚函数的个性化实现。（虚函数后加“=0”）
 
+### 类和对象的关系
+
+Object is the abstraction of objective things, and class is the abstraction of objects. Class is an abstract data type.
+
+Object is an instance of class, and class is a scheme of object. 
+
+Definition & Declaration 定义是完全描述，声明是声明存在。
+
+
+
 
 
