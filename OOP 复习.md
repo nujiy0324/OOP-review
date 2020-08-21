@@ -71,7 +71,8 @@ int sum(int x, int y)
 new Data-Type;
 /*example*/
 double *p = NULL;
-p = new double;
+p = new double;//如果内存空间被分配完，则new会返回空指针
+
 
 ```
 
