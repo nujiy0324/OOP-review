@@ -69,10 +69,14 @@ int sum(int x, int y)
 
 ```c++
 new Data-Type;
-/*example*/
-double *p = NULL;
+/*example 1*/
+double* p = NULL;
 p = new double;//如果内存空间被分配完，则new会返回空指针
-
+delete p;
+/*example 2*/
+char* p_str = NULL:
+p_str = new char[20];
+delete [] p_str;
 
 ```
 
