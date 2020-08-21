@@ -141,6 +141,12 @@ Object is an instance of class, and class is a scheme of object.
 
 Definition & Declaration 定义是完全描述，声明是声明存在。
 
+### 头文件
+
+头文件中只能存在变量或者函数声明。（不能放定义，对于一个函数即便是相同的定义，出现两次也是illegal。）(且变量应该 extern，而不能直接声明)
+
+* 
+
 
 
 
