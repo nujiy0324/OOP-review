@@ -77,10 +77,16 @@ delete p;
 char* p_str = NULL:
 p_str = new char[20];
 delete [] p_str;
-
+/*example 3*/
+int **array;//第一维长度为m，第二维长度为n
+array = new int *[m];
+for( int i=0; i<m; i++ )
+{array[i] = new int [n];}
+//release
+for( int i=0; i<m; i++ )
+{delete [] array[i];}
+delete [] array;
 ```
 
-
-
-
+### 引用
 
