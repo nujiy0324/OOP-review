@@ -90,3 +90,8 @@ delete [] array;
 
 ### 引用
 
+```c++
+//instance
+
+```
+
