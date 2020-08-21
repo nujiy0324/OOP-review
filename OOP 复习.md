@@ -127,3 +127,8 @@ typedef      PCchar *       PPCchar; // pointer to pointer to const c
 ## **定义类**
 
 ![image-20200821135428310](..\OOP-review\pic\image-20200821135428310.png)
+
+### 封装
+
+
+
