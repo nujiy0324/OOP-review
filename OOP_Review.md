@@ -168,5 +168,96 @@ Definition & Declaration 定义是完全描述，声明是声明存在。
 
 ### 成员变量
 
+### 访问属性
 
+* 在类的内部（类的声明和类的定义）可以访问public、protected、private所有成员
+* 在类的外部（对象和其他函数）不能访问private和protected成员
+
+三种不同的派生方式：
+
+1. public：
+   public ->public;
+   protected->protected;
+   private->不可访问;
+2. protected:
+   public->protected;
+   protected->protected;
+   private->不可访问;
+3. private:
+   public->private;
+   protected->private;
+   private->不可访问;
+
+***friend 友元***：在对象中声明，可以访问private和protected成员  ***友元关系不能被继承***
+
+```c++
+/*Instance*/
+#include <iostream>
+using namespace std;
+
+class Address;  //提前声明Address类
+
+//声明Student类
+class Student{
+public:
+    Student(char *name, int age, float score);
+public:
+    void show(Address *addr);
+private:
+    char *m_name;
+    int m_age;
+    float m_score;
+};
+
+//声明Address类
+class Address{
+private:
+    char *m_province;  //省份
+    char *m_city;  //城市
+    char *m_district;  //区（市区）
+public:
+    Address(char *province, char *city, char *district);
+    //将Student类中的成员函数show()声明为友元函数
+    friend void Student::show(Address *addr);
+};
+
+//实现Student类
+Student::Student(char *name, int age, float score): m_name(name), m_age(age), m_score(score){ }
+void Student::show(Address *addr){
+    cout<<m_name<<"的年龄是 "<<m_age<<"，成绩是 "<<m_score<<endl;
+    cout<<"家庭住址："<<addr->m_province<<"省"<<addr->m_city<<"市"<<addr->m_district<<"区"<<endl;
+}
+
+//实现Address类
+Address::Address(char *province, char *city, char *district){
+    m_province = province;
+    m_city = city;
+    m_district = district;
+}
+
+int main(){
+    Student stu("小明", 16, 95.5f);
+    Address addr("陕西", "西安", "雁塔");
+    stu.show(&addr);
+   
+    Student *pstu = new Student("李磊", 16, 80.5);
+    Address *paddr = new Address("河北", "衡水", "桃城");
+    pstu -> show(paddr);
+
+    return 0;
+}
+```
+
+### 静态成员
+
+## namespace
+
+```c++
+:: //作用域
+/*如果想在类的外部引用静态成员函数，或在类的外部定义成员函数都要用到。使用命名空间里的类型或函数也要用到*/
+```
+
+## 函数
+
+![image-20200822163527306](..\OOP-review\pic\image-20200822163527306.png)
 
