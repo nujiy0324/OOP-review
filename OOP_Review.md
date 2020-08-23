@@ -280,3 +280,248 @@ void Func(int i = 1, float f = 2.0f, double d = 3.0){}
 ## 继承
 
 ![image-20200822165929356](..\OOP-review\pic\image-20200822165929356.png)
+
+## 多态
+
+![image-20200823162103456](..\OOP-review\pic\image-20200823162103456.png)
+
+## 拷贝构造
+
+```c++
+classname (const classname &obj);
+```
+
+### 拷贝时机
+
+1. 对象以值传递的方式传入函数参数
+2. 对象以值传递的方式从函数返回
+3. 用另一个对象进行初始化
+
+### 拷贝构造的写法
+
+似乎就是开辟空间，然后拷贝就完了？
+
+## 运算符重载
+
+![image-20200823171435095](..\OOP-review\pic\image-20200823171435095.png)
+
+### 基本原则
+
+1. 只能使用成员函数重载的运算符有：=、()、[]、->、new、delete
+2. 单目运算符最好重载为成员函数
+3. 对于复合的赋值运算符如+=、-=、*=、/=、&=、!=、~=、%=、>>=、<<=建议重载为成员函数
+4. 对于其它运算符，建议重载为友元函数
+
+### 重载的方式
+
+无非是一种作为成员函数重载，还有一种是作为全局函数重载，不过作为全局函数重载需要friend（用友元进行引入）
+
+### 类型转换
+
+```c++
+class Integer
+{
+public:
+    Integer(int v);
+    Integer& opetaror =(const int &v); //重载赋值操作符，可以做到 Integer i = 10;//把i当基本数据类型使用
+    operator int(); //重载类型转换操作符，可以做到int i; Integer it;  i = it; //it直接转为int类型，然后赋值给i
+ 
+private:
+    int data;
+};
+Integer::Integer(int v)
+{
+    data = v;
+}
+ 
+/*!
+ *@brief 重载赋值操作符，可以做到 Integer i = 10;//把i当基本数据类型使用
+ */
+Integer& Integer::opetaror =(const int &v)
+{
+    data = v;
+    return *this;
+}
+ 
+/*!
+ *@brief 重载类型转换操作符，可以做到int i; Integer it;  i = it; //it直接转为int类型，然后赋值给i
+ */
+Integer::operator int()
+{
+    return data;
+}
+ 
+#include <iostream>
+using namespace std;
+ 
+int main()
+{
+    Integer integer1(10); //调用构造函数进行初始化
+    Integer integer2;
+    int i1 = 10;
+    integer2 = i1; //调用=赋值操作符进行赋值
+ 
+    //下面测试类型转换操作符的应用
+    int i2;
+    i2 = integer1; //integer1是Integer类型，这里直接把Integer类型转换为int，然后赋值给i2
+                          //如果没有重载了int()，需要类型转换的话，这里必须写成 i2 = (int)integer1;
+    return 0;
+}
+```
+
+## 模板
+
+![image-20200823174429592](..\OOP-review\pic\image-20200823174429592.png)
+
+*模板是泛型编程的基础，泛型编程即以一种独立于任何特定类型的方式编写代码。*
+
+### 模板的声明
+
+#### 函数模板
+
+```c++
+/*scheme*/
+template <typename type> ret-type func-name(parameter list);
+/*instance*/
+template <typename T>
+inline T const& Max (T const& a, T const& b) 
+{ 
+    return a < b ? b:a; 
+} 
+int main ()
+{
+    int i = 39;
+    int j = 20;
+    cout << "Max(i, j): " << Max(i, j) << endl; 
+    double f1 = 13.5; 
+    double f2 = 20.7; 
+    cout << "Max(f1, f2): " << Max(f1, f2) << endl; 
+    string s1 = "Hello"; 
+    string s2 = "World"; 
+    cout << "Max(s1, s2): " << Max(s1, s2) << endl; 
+   return 0;
+}
+```
+
+#### 类模板
+
+```c++
+/*scheme*/
+template <class type> class class-name{}
+/*instance*/
+template <class T>
+class Stack { 
+  private: 
+    vector<T> elems;     // 元素 
+  public: 
+    void push(T const&);  // 入栈
+    void pop();               // 出栈
+    T top() const;            // 返回栈顶元素
+    bool empty() const{       // 如果为空则返回真。
+        return elems.empty(); 
+    } 
+}; 
+ 
+template <class T>
+void Stack<T>::push (T const& elem) 
+{ 
+    // 追加传入元素的副本
+    elems.push_back(elem);    
+} 
+ 
+template <class T>
+void Stack<T>::pop () 
+{ 
+    if (elems.empty()) { 
+        throw out_of_range("Stack<>::pop(): empty stack"); 
+    }
+    // 删除最后一个元素
+    elems.pop_back();         
+} 
+ 
+template <class T>
+T Stack<T>::top () const 
+{ 
+    if (elems.empty()) { 
+        throw out_of_range("Stack<>::top(): empty stack"); 
+    }
+    // 返回最后一个元素的副本 
+    return elems.back();      
+} 
+ 
+int main() 
+{ 
+    try { 
+        Stack<int> intStack;  // int 类型的栈 
+        Stack<string> stringStack;    // string 类型的栈 
+ 
+        // 操作 int 类型的栈 
+        intStack.push(7); 
+        cout << intStack.top() <<endl; 
+ 
+        // 操作 string 类型的栈 
+        stringStack.push("hello"); 
+        cout << stringStack.top() << std::endl; 
+        stringStack.pop(); 
+        stringStack.pop(); 
+    } 
+    catch (exception const& ex) { 
+        cerr << "Exception: " << ex.what() <<endl; 
+        return -1;
+    } 
+}
+```
+
+### 模板实例化
+
+* 显式实例化
+* 隐式实例化
+
+## 异常
+
+![image-20200823180507344](..\OOP-review\pic\image-20200823180507344.png)
+
+*异常是程序在执行期间产生的问题。C++ 异常是指在程序运行时发生的特殊情况，比如尝试除以零的操作。*
+
+### 异常的抛出
+
+* throw关键字
+
+### 异常的捕捉
+
+```c++
+try
+{
+    //保护代码
+}catch(ExceptionName e1)
+{
+ 	//catch块   
+}catch(ExceptionName e2)
+{
+    //catch块
+}catch(...)
+{
+    //这个表示该catch块可以处理任何类型的异常
+}
+```
+
+```c++
+/*instance*/
+double division(int a, int b)
+{
+   if( b == 0 )
+      throw "Division by zero condition!";
+   return (a/b);
+}
+//以下为在主函数中
+try {
+     z = division(x, y);
+     cout << z << endl;
+   }catch (const char* msg) {
+     cerr << msg << endl;
+   }
+```
+
+![C++ 异常的层次结构](..\OOP-review\pic\exceptions_in_cpp.png)、
+
+![image-20200823182948284](..\OOP-review\pic\image-20200823182948284.png)
