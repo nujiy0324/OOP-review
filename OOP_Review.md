@@ -109,12 +109,12 @@ int const *a = &b;			//[2]
 int* const a = &b;			//[3]
 const int* const a = &b;     //[4]
  
-typedef        char *         Pchar; // pointer to char
-typedef const Pchar          CPchar; // const pointer to char
-typedef const  char *        PCchar; // pointer to const char
-typedef       Pchar *        PPchar; // pointer to pointer to char
-typedef const  char * const CPCchar; // const pointer to const char
-typedef      PCchar *       PPCchar; // pointer to pointer to const char
+typedef        char *         Pchar; // pointer to char
+typedef const Pchar          CPchar; // const pointer to char
+typedef const  char *        PCchar; // pointer to const char
+typedef       Pchar *        PPchar; // pointer to pointer to char
+typedef const  char * const CPCchar; // const pointer to const char
+typedef      PCchar *       PPCchar; // pointer to pointer to const char
 ```
 
 1. 如果const位于星号的左侧，则const就是用来修饰指针所指向的变量，即指针指向为常量。
@@ -249,6 +249,16 @@ int main(){
 ```
 
 ### 静态成员
+
+​	按照以前的理解，静态成员就是不需要实例化就能够访问的成员，非静态成员即为需要实例化才能访问的。
+
+​	静态成员也遵循public等访问规则。
+
+1. 静态成员变量
+   1. 优势在于数据隐藏，比如private
+   2. 不和全局变量的名称冲突
+2. 静态成员函数
+   1. 没有this指针，所以无法访问类对象中的非静态数据成员
 
 ## namespace
 
@@ -525,3 +535,12 @@ try {
 ![C++ 异常的层次结构](..\OOP-review\pic\exceptions_in_cpp.png)、
 
 ![image-20200823182948284](..\OOP-review\pic\image-20200823182948284.png)
+
+## 绑定
+
+
+
+
+
+
+
