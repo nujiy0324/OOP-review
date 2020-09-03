@@ -291,6 +291,8 @@ void Func(int i = 1, float f = 2.0f, double d = 3.0){}
 
 ![image-20200822165929356](..\OOP-review\pic\image-20200822165929356.png)
 
+
+
 ## 多态
 
 ![image-20200823162103456](..\OOP-review\pic\image-20200823162103456.png)
@@ -538,9 +540,53 @@ try {
 
 ## 绑定
 
+* 静态类型：对象声明时采用的类型，编译时确定
 
+* 动态类型：目前所指对象的类型，是运行时确定的
 
+  ```cpp
+  class B
+  {};
+  class C : public B
+  {};
+  class D : public B
+  {};
+  D* pD = new D();//pD的静态类型是它声明的类型D*，动态类型也是D*
+  B* pB = pD;//pB的静态类型是它声明的类型B*，动态类型是pB所指向的对象pD的类型D*
+  C* pC = new C();
+  pB = pC;//pB的动态类型是可以更改的，现在它的动态类型是C*
+  ```
 
+* 静态绑定![image-20200903095017075](..\OOP-review\pic\image-20200903095017075.png)
 
+* 动态绑定
 
+  ```cpp
+  class B
+  {
+      void DoSomething();
+      virtual void vfun();
+  }
+  class C : public B
+  {
+      void DoSomething();//首先说明一下，这个子类重新定义了父类的no-virtual函数，这是一个不好的设计，会导致名称遮掩；这里只是为了说明动态绑定和静态绑定才这样使用。
+      virtual void vfun();
+  }
+  class D : public B
+  {
+      void DoSomething();
+      virtual void vfun();
+  }
+  D* pD = new D();
+  B* pB = pD;
+  ```
 
+  让我们看一下，pD->DoSomething()和pB->DoSomething()调用的是同一个函数吗？
+  不是的，虽然pD和pB都指向同一个对象。因为函数DoSomething是一个no-virtual函数，它是静态绑定的，也就是编译器会在编译期根据对象的静态类型来选择函数。pD的静态类型是D*，那么编译器在处理pD->DoSomething()的时候会将它指向D::DoSomething()。同理，pB的静态类型是B*，那pB->DoSomething()调用的就是B::DoSomething()。
+
+  让我们再来看一下，pD->vfun()和pB->vfun()调用的是同一个函数吗？
+  是的。因为vfun是一个虚函数，它动态绑定的，也就是说它绑定的是对象的动态类型，pB和pD虽然静态类型不同，但是他们同时指向一个对象，他们的动态类型是相同的，都是D*，所以，他们的调用的是同一个函数：D::vfun()。
+
+==**只有虚函数才使用的是动态绑定，其他的全部是静态绑定。**==
+
+![image-20200903101723471](..\OOP-review\pic\image-20200903101723471.png)
